@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\JournalController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\MarkController;
 
 
 /*
@@ -20,6 +21,7 @@ use App\Http\Controllers\HomeController;
 Route::get('/', HomeController::class);
 
 Route::resource('journal', JournalController::class);
+Route::resource('mark', MarkController::class);
 Route::get('createusers', [JournalController::class, 'create']);
 Route::get('mark', [JournalController::class, 'mark']);
 

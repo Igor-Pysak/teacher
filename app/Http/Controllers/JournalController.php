@@ -65,9 +65,13 @@ class JournalController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Student $students)
     {
-        //
+        $students = Student::orderBy('created_at', 'DESC')->get();
+
+        return view('journal', [
+            'students' => $students,
+        ]);
     }
 
     /**
@@ -77,9 +81,13 @@ class JournalController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Student $students)
     {
-        //
+        $students->id = $request->id;
+        $students->name = $request->name;
+        $students->save();
+
+        return redirect()->back()->withSuccess('Студент був успішно оновлений');
     }
 
     /**
@@ -88,8 +96,9 @@ class JournalController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Student $students)
     {
-        //
+        $students->delete();
+        return redirect()->back()->withSuccess('Студент був успішно видалений');
     }
 }
