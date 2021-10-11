@@ -24,6 +24,7 @@ Route::resource('journal', JournalController::class);
 Route::resource('mark', MarkController::class);
 Route::get('createusers', [JournalController::class, 'create']);
 Route::get('mark', [JournalController::class, 'mark']);
+Route::resource('semester/{id}', JournalController::class);
 
 Route::get('/dashboard', function () {
     return view('dashboard');

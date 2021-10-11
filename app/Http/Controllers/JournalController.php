@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Student;
+use App\Models\Semester;
 use Illuminate\Http\Request;
 
 class JournalController extends Controller
@@ -14,7 +15,8 @@ class JournalController extends Controller
      */
     public function index()
     {
-        $students = \App\Models\Student::all();
+        $students = \App\Models\Student::with('semesters')->get();
+        //$student->semesters()->attach($student->id, ['mark' => 999]);
     return view('journal', compact('students'));
     }
 
@@ -55,6 +57,7 @@ class JournalController extends Controller
      */
     public function show($id)
     {
+        $semester = Semester::findOrFail($id);
         $student = Student::query()->findOrFail($id);
         return view('journal', compact('student'));
     }
