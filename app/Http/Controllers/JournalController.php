@@ -17,7 +17,7 @@ class JournalController extends Controller
     {
         $students = \App\Models\Student::with('semesters')->get();
         //$student->semesters()->attach($student->id, ['mark' => 999]);
-    return view('journal', compact('students'));
+    return view('semester', compact('students'));
     }
 
     /**
@@ -27,13 +27,12 @@ class JournalController extends Controller
      */
     public function create()
     {
-        return view('/createusers');
+        return view('createusers');
     }
     public function mark()
     {
-        return view('/mark');
+        return view('mark');
     }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -46,7 +45,7 @@ class JournalController extends Controller
         $students->id = request('id');
         $students->name = request('name');
         $students->save();
-        return redirect('/journal');
+        return redirect('/semester');
     }
 
     /**
@@ -59,7 +58,7 @@ class JournalController extends Controller
     {
         $semester = Semester::findOrFail($id);
         $student = Student::query()->findOrFail($id);
-        return view('journal', compact('student'));
+        return view('semester', compact('student'));
     }
 
     /**
@@ -68,13 +67,11 @@ class JournalController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Student $students)
+    public function edit(Student $students, $id)
     {
-        $students = Student::orderBy('created_at', 'DESC')->get();
+        $students->semesters()->attach($students->id);
 
-        return view('journal', [
-            'students' => $students,
-        ]);
+        return view('semester', compact('students'));
     }
 
     /**

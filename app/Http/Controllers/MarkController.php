@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Student;
 use App\Models\Mark;
 
 class MarkController extends Controller
@@ -14,7 +15,7 @@ class MarkController extends Controller
      */
     public function index()
     {
-        $marks = Mark::orderBy('created_at', 'DESC')->get();
+        $marks = Student::orderBy('created_at', 'DESC')->get();
 
         return view('mark', [
             'marks' => $marks
@@ -28,7 +29,7 @@ class MarkController extends Controller
      */
     public function create()
     {
-        $marks = Mark::all();
+        $marks = Student::all();
         return view('mark', [
             'marks' => $marks
         ]);
@@ -42,18 +43,8 @@ class MarkController extends Controller
      */
     public function store(Request $request)
     {
-        $marks = new Mark();
-        $marks->string = request('mark1');
-        $marks->string = request('mark2');
-        $marks->string = request('mark3');
-        $marks->string = request('mark4');
-        $marks->string = request('mark5');
-        $marks->string = request('mark6');
-        $marks->string = request('mark7');
-        $marks->string = request('mark8');
-        $marks->string = request('mark9');
-        $marks->string = request('mark10');
-        $marks->string = request('semester_mark');
+        $marks = new Student();
+        $marks->semesters()->attach($marks->id, ['mark' => 999]);
         $marks->save();
 
         return redirect()->back()->withSuccess('Оцінка була успішно добавлена');
@@ -65,7 +56,7 @@ class MarkController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Mark $mark)
+    public function show(Student $mark)
     {
         //
     }
@@ -76,7 +67,7 @@ class MarkController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Mark $mark)
+    public function edit(Student $mark)
     {
         return view('mark', [
             'mark' => $mark,
@@ -90,7 +81,7 @@ class MarkController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Mark $mark)
+    public function update(Request $request, Student $mark)
     {
         $mark->title = $request->title;
         $mark->save();
@@ -104,7 +95,7 @@ class MarkController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Mark $mark)
+    public function destroy(Student $mark)
     {
         $mark->delete();
         return redirect()->back()->withSuccess('Оцінка була успішно видалена!');

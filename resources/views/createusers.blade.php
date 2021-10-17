@@ -4,7 +4,7 @@
 <div class="row py-lg-5 ">
     <div class="col-lg-6 col-md-8 mx-auto">
         <h1 class="fw-light">Додати Учня</h1>
-<form method="post" action="/journal">
+<form method="post" action="{{ route('journal.create') }}">
 {{ csrf_field() }}
 <div class="login-form-1">
     <form id="login-form" class="text-left" novalidate="novalidate">

@@ -20,12 +20,13 @@ use App\Http\Controllers\MarkController;
 
 Route::get('/', HomeController::class);
 
-Route::resource('journal', JournalController::class);
+Route::resource('semester', JournalController::class);
+Route::resource('createusers', JournalController::class)->only(['create']);
 Route::resource('mark', MarkController::class);
-Route::get('createusers', [JournalController::class, 'create']);
-Route::get('mark', [JournalController::class, 'mark']);
-Route::resource('semester/{id}', JournalController::class);
 
+Route::get('/journal', function () {
+    return view('journal');
+});
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
