@@ -21,12 +21,13 @@ class SemesterStudentFactory extends Factory
      *
      * @return array
      */
+
     public function definition()
     {
         return [
             'student_id' => Student::query()->get()->random()->id,
             'semester_id' => Semester::query()->get()->random()->id,
-            'mark' => rand(1,10),
+            'mark' => rand(1,12),
         ];
     }
 }

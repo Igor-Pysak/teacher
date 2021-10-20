@@ -17,7 +17,7 @@ class JournalController extends Controller
     {
         $students = \App\Models\Student::with('semesters')->get();
         //$student->semesters()->attach($student->id, ['mark' => 999]);
-    return view('semester', compact('students'));
+        return view('semester', compact('students'));
     }
 
     /**
@@ -67,11 +67,10 @@ class JournalController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Student $students, $id)
+    public function edit(Request $request, $id)
     {
-        $students->semesters()->attach($students->id);
-
-        return view('semester', compact('students'));
+        $student = Student::find($id);
+        return view('edituser', compact('student'));
     }
 
     /**
@@ -81,13 +80,18 @@ class JournalController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Student $students)
+    public function update(Request $request, $id)
     {
-        $students->id = $request->id;
-        $students->name = $request->name;
-        $students->save();
+        $student_exists = Student::where('name',$request->name)->where('id','!=',$id)->exists();
+        if ($student_exists){
+            return redirect()->back()->with('message','Студент уже існує!');
+        }
 
-        return redirect()->back()->withSuccess('Студент був успішно оновлений');
+        $student = Student::find($id);
+        $student->name = $request->name;
+        $student->update();
+
+        return redirect()->back()->with('message','Студент був успішно оновлений');
     }
 
     /**
@@ -96,9 +100,14 @@ class JournalController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Student $students)
+    public function destroy(Request $request,$id)
     {
-        $students->delete();
-        return redirect()->back()->withSuccess('Студент був успішно видалений');
+        $student = Student::find($id);
+        if ($student) {
+            $student->delete();
+            return redirect()->back()->with('message','Студент був успішно видалений');
+        }
+
+        return redirect()->back()->with('message','Помилка видалення, Студент не знайдений');
     }
 }

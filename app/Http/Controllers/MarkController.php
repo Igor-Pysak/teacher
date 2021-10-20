@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Semester;
 use Illuminate\Http\Request;
 use App\Models\Student;
 use App\Models\Mark;
@@ -13,12 +14,15 @@ class MarkController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request, $student_id)
     {
-        $marks = Student::orderBy('created_at', 'DESC')->get();
+        $student_name = Student::find($student_id)->name;
+        $marks = Mark::where('student_id',$student_id)->orderBy('id', 'DESC')->get();
 
-        return view('mark', [
-            'marks' => $marks
+        return view('student-marks', [
+            'marks' => $marks,
+            'student_name'=>$student_name,
+            'student_id'=>$student_id
         ]);
     }
 
@@ -27,11 +31,17 @@ class MarkController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request,$student_id)
     {
-        $marks = Student::all();
+        $student = Student::find($student_id);
+        if (!$student){
+            return redirect()->back()->with('message','Такого студента не існує!');
+        }
+
         return view('mark', [
-            'marks' => $marks
+            'student_name' => $student->name,
+            'semesters' => Semester::all(),
+            'student_id'=>$student_id
         ]);
     }
 
@@ -41,13 +51,15 @@ class MarkController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request,$student_id)
     {
-        $marks = new Student();
-        $marks->semesters()->attach($marks->id, ['mark' => 999]);
-        $marks->save();
+        $mark = new Mark();
+        $mark->semester_id = $request->semester_id;
+        $mark->student_id = $student_id;
+        $mark->mark = $request->mark;
+        $mark->save();
 
-        return redirect()->back()->withSuccess('Оцінка була успішно добавлена');
+        return redirect()->back()->with('message','Оцінка була успішно добавлена');
     }
 
     /**
@@ -67,9 +79,10 @@ class MarkController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Student $mark)
+    public function edit($id)
     {
-        return view('mark', [
+        $mark  = Mark::find($id);
+        return view('editmark', [
             'mark' => $mark,
         ]);
     }
@@ -81,12 +94,13 @@ class MarkController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Student $mark)
+    public function update(Request $request, $id)
     {
-        $mark->title = $request->title;
-        $mark->save();
+        $mark = Mark::find($id);
+        $mark->mark = $request->mark;
+        $mark->update();
 
-        return redirect()->back()->withSuccess('Оцінка була успішно оновлена');
+        return redirect()->back()->with('message','Оцінка була успішно оновлена');
     }
 
     /**
@@ -95,9 +109,12 @@ class MarkController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Student $mark)
+    public function destroy($id)
     {
-        $mark->delete();
-        return redirect()->back()->withSuccess('Оцінка була успішно видалена!');
+        $mark = Mark::find($id);
+        if ($mark) {
+            $mark->delete();
+        }
+        return redirect()->back()->with('message','Оцінка була успішно видалена!');
     }
 }

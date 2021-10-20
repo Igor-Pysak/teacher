@@ -3,28 +3,38 @@
 @section ('content')
 <div class="row py-lg-5 ">
     <div class="col-lg-6 col-md-8 mx-auto">
-        <h1 class="fw-light text-white">Оцінити учня</h1>
-<form method="post" action="{{ route('mark.create') }}">
-{{ csrf_field() }}
-<div class="login-form-1">
-    <form id="login-form" class="text-left" novalidate="novalidate">
-        <div class="login-form-main-message"></div>
-        <div class="main-login-form">
-            <div class="login-group">
-                <div class="p-2">
-                    <div class="form-group text-white">
-                        <label for="mark1" class="sr-only">Оцінка</label>
-                        <input type="text" class="form-control" id="mark1" name="mark1" placeholder="Оцінка">
+        <h1 style="color: white;">{{ $student_name }} оцінка</h1>
+        <br/>
+        <form method="post" action="{{ route('student.mark.create',$student_id) }}">
+        {{ csrf_field() }}
+        <div class="login-form-1">
+                <div class="login-form-main-message"></div>
+                <div class="main-login-form">
+                    <div class="login-group">
+                        <div class="p-2">
+                            <div class="form-group text-white">
+                                <label for="mark1" class="sr-only">Семестр</label>
+                                <select name="semester_id" class="form-control" required>
+                                    <option value="">--Вибір--</option>
+                                    @foreach($semesters as $semester)
+                                        <option value="{{ $semester->id }}">{{ $semester->semester_name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="p-2">
+                            <div class="form-group text-white">
+                                <label for="mark1" class="sr-only">Оцінка</label>
+                                <input type="text" class="form-control" value="" id="mark" name="mark" placeholder="Оцінка" required />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-2">
+                        <button class="col-4 btn btn-outline-info mr-3" type="submit">Готово</button>
                     </div>
                 </div>
-            </div>
-            <div class="p-2">
-    <button class="col-4 btn btn-outline-info mr-3" type="sumbit">Готово</button>
+        </div>
+        </form>
+    </div>
 </div>
-</form>
-</div>
-</div>
-</div>
-</section>
-</p>
 @endsection

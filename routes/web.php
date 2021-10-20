@@ -22,11 +22,14 @@ Route::get('/', HomeController::class);
 
 Route::resource('semester', JournalController::class);
 Route::resource('createusers', JournalController::class)->only(['create']);
-Route::resource('mark', MarkController::class);
+Route::get('mark/{student_id}', [MarkController::class,'index'])->name('student-marks');
+Route::get('student/mark/create/{student_id}', [MarkController::class,'create'])->name('student.mark.create');
+Route::post('student/mark/create/{student_id}', [MarkController::class,'store'])->name('student.mark.store');
+Route::get('student/mark/edit/{mark_id}', [MarkController::class,'edit'])->name('student.mark.edit');
+Route::patch('student/mark/edit/{mark_id}', [MarkController::class,'update'])->name('student.mark.update');
+Route::delete('student/mark/delete/{mark_id}', [MarkController::class,'destroy'])->name('student.mark.destroy');
+Route::resource('journal', JournalController::class);
 
-Route::get('/journal', function () {
-    return view('journal');
-});
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');

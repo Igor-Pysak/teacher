@@ -26,9 +26,9 @@
                 font-family: 'Nunito', sans-serif;
             }
             .mx-auto {
-    margin-right: auto!important;
-    margin-left: auto!important;
-}
+                margin-right: auto!important;
+                margin-left: auto!important;
+            }
         </style>
     </head>
     <body class="antialiased bg-dark">
@@ -47,6 +47,11 @@
                 </div>
             @endif
             <div class="container">
+                @if(session()->has('message'))
+                    <div class="alert alert-info">
+                        {{ session()->get('message') }}
+                    </div>
+                @endif
                 @yield('content')
             </div>
                 </body>
