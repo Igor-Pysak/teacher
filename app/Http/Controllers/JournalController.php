@@ -16,7 +16,6 @@ class JournalController extends Controller
     public function index()
     {
         $students = \App\Models\Student::with('semesters')->get();
-        //$student->semesters()->attach($student->id, ['mark' => 999]);
         return view('semester', compact('students'));
     }
 
