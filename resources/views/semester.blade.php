@@ -6,6 +6,7 @@
             <div class="card">
                 <div class="card-header bg-dark">
                     <a href="{{ route('journal.create') }}" class="btn btn-primary btn-sm"><i class="fa fa-pencil"></i> Додати Студента </a>
+                    <a href="{{ url('https://drive.google.com/drive/folders/1OcUqa_rJngXL5aW0gx6NA0y11FOjm_3H?usp=sharing') }}" class="btn btn-primary btn-sm"><i class="fa fa-pencil"></i> Матеріали </a>
                 </div>
                 <div class="card-body p-0 bg-dark">
                   <table class="table table-dark projects">

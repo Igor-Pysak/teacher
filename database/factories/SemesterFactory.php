@@ -22,7 +22,7 @@ class SemesterFactory extends Factory
     public function definition()
     {
         return [
-            'semester_name' =>$this->faker->unique()->numberBetween($min = 1, $max = 9),
+            'semester_name' => $this->faker->unique()->numberBetween($min = 1, $max = 9),
             'created_at' => $this->faker->date('Y-m-d H:i:s'),
             'updated_at' => $this->faker->date('Y-m-d H:i:s'),
         ];
