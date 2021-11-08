@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Чат</title>
 
-    <link rel="stylesheet" href="./css/app.css">
+    <link rel="stylesheet" href="./css/mystyle.css">
 </head>
 <body>
     <div class="app">
@@ -20,7 +20,7 @@
 
         <form id="message_form">
             <input type="text" name="message" id="message_input" placeholder="Написати повідомлення...">
-            <button type="submit" id="message_send">Отправить сообщение</button>
+            <button type="submit" id="message_send">Відправити повідомлення</button>
         </form>
     </div>
 

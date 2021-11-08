@@ -29,6 +29,7 @@ event(
         $request->input('username'),
         $request->input('message')
     ));
+    return ["success" => true];
 });
 
 Route::get('/', HomeController::class);
