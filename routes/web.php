@@ -1,10 +1,13 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 use App\Http\Controllers\JournalController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MarkController;
+use App\Events\Message;
 
 
 /*
@@ -17,6 +20,16 @@ use App\Http\Controllers\MarkController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('chat', function () {
+    return view('chat');
+});
+Route::post('/send-message', function (Request $request) {
+event(
+    new Message(
+        $request->input('username'),
+        $request->input('message')
+    ));
+});
 
 Route::get('/', HomeController::class);
 Route::resource('semester', JournalController::class)->only(['index']);
